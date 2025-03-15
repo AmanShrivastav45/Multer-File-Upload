@@ -5,8 +5,9 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import axios from "axios";
 import toast from "react-hot-toast";
 
+const server = import.meta.env.VITE_SERVER_URL;
+
 const FileUpload = () => {
-    const server = import.meta.env.VITE_SERVER_URL;
     const [fileData, setFileData] = useState(null);
     const [error, setError] = useState("");
     const [isUploading, setIsUploading] = useState(false);
@@ -65,7 +66,7 @@ const FileUpload = () => {
         formData.append("file", fileData.file);
 
         try {
-            const response = await axios.post(server, formData, {
+            const response = await axios.post(`${server}/upload`, formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 

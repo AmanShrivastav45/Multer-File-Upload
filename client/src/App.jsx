@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 import UploadFiles from '../pages/UploadFiles'
 import ViewFiles from '../pages/ViewFiles'
 import { Toaster } from 'react-hot-toast'
+import ViewPDF from '../components/ViewPDF'
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<UploadFiles/>} />
         <Route path='/files' element={<ViewFiles/>} />
+        <Route path="/view/:filename" element={<ViewPDF />} />
       </Routes>
       <Toaster
           position="top-center"

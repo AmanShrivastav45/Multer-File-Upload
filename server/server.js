@@ -1,30 +1,23 @@
-import express from 'express';
-import multer from 'multer';
-import cors from 'cors';
-import dotenv from 'dotenv';
-dotenv.config();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { connectMongoDB } from "./database/connection.js";
+import authRoutes from "./routes/auth.route.js";
 
+dotenv.config();
 const app = express();
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(express.json());
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.originalname);
-    }
-});
+app.use("/multer/api", authRoutes);
 
-const upload = multer({ storage });
-
-
-app.post('/upload', upload.single('file'), (req, res) => {
-    res.send('File uploaded successfully');
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(PORT, async () => {
+    await connectMongoDB();
+    console.table({
+        "Server Status": "Active",
+        "Server Port": PORT,
+        "MongoDB": "Connected",
+    });
 });
